@@ -10,8 +10,9 @@ var lib = new Library();
 Library.prototype.arrBooks = [];
 
 
+// Add a book to the library
 Library.prototype.addBook = function(book){
-  if (book === undefined) {return false};
+  if (!validateParam(book)){return false};
 
   var strTemp = book.title.trim().toLowerCase();
 
@@ -28,9 +29,9 @@ Library.prototype.addBook = function(book){
   return true;
 };
 
-
+// Remove a specific title from library, return true or false.
 Library.prototype.removeBookByTitle = function(title){
-  if (title === undefined) {return false};
+  if (!validateParam(title)){return false};
 
   var cntRemoved = 0;
   var strTemp = title.trim().toLowerCase();
@@ -46,8 +47,9 @@ Library.prototype.removeBookByTitle = function(title){
   return cntRemoved > 0 ?  true : false;
 };
 
+// Remove a specific book by author from library, return true or false.
 Library.prototype.removeBookByAuthor = function(author){
-  if (author === undefined) {return false};
+  if (!validateParam(author)){return false};
 
   var cntRemoved = 0;
   var strTemp = author.trim().toLowerCase();
@@ -63,16 +65,18 @@ Library.prototype.removeBookByAuthor = function(author){
   return cntRemoved > 0 ?  true : false;
 };
 
+// Return a random book.
 Library.prototype.getRandomBook = function(){
   return this.arrBooks.length == 0 ? null : this.arrBooks[Math.floor(Math.random() * this.arrBooks.length)];
 };
 
-// Return an array of all books that completely or partially matches title.
+// Return an array of all books that completely or partially matches title. Empty array if no books.
 Library.prototype.getBookByTitle = function(title){
-  if (title === undefined) {return false};
+  var arrTemp = new Array();
+
+  if (!validateParam(title)){return arrTemp};
 
   var strTemp = title.trim().toLowerCase();
-  var arrTemp = new Array();
 
   for(var i = 0; i < this.arrBooks.length; i++){
     if(this.arrBooks[i].title.toLowerCase().indexOf(strTemp) > -1){
@@ -84,14 +88,15 @@ Library.prototype.getBookByTitle = function(title){
   return arrTemp;
 };
 
-// Return an array of all books that completely or partially matches author.
+// Return an array of all books that completely or partially matches author. Empty array if no books.
 Library.prototype.getBooksByAuthor = function(author){
-  if (author === undefined) {return false};
-
-  var strTemp = author.trim().toLowerCase();
   var arrTemp = new Array();
 
-  for(var i = 0; i < this.arrBooks.length; i++) { //toLowerCase and includes...?  trim?
+  if (!validateParam(author)){return arrTemp};
+
+  var strTemp = author.trim().toLowerCase();
+
+  for(var i = 0; i < this.arrBooks.length; i++) {
     if(this.arrBooks[i].author.toLowerCase().indexOf(strTemp) > -1){
       arrTemp.push(this.arrBooks[i]);
     };
@@ -101,9 +106,9 @@ Library.prototype.getBooksByAuthor = function(author){
   return arrTemp;
 };
 
-// add an array of books
+// Add an array of books to library, return array of books, 0 if no books added.
 Library.prototype.addBooks = function(booksArray){
-  if (booksArray === undefined) {return false};
+  if (validateParam(booksArray) == false){return 0};
 
   var arrTemp = new Array();
 
@@ -114,7 +119,7 @@ Library.prototype.addBooks = function(booksArray){
   };
 
   console.log(arrTemp.length + ' books added to the library.');
-  return arrTemp;
+  return arrTemp.length > 0 ?  arrTemp : 0;
 };
 
 // Return a distinct array of authors, empty array if no books exist or if no authors exist.
@@ -127,16 +132,33 @@ Library.prototype.getAuthors = function(){
     };
   };
 
+  console.log(arrDistinctAuthors.length + ' authors found.');
   return arrDistinctAuthors;
 };
 
+// Return random author.
 Library.prototype.getRandomAuthorName = function(){
   return this.arrBooks.length == 0 ? null : this.arrBooks[Math.floor(Math.random() * this.arrBooks.length)].author;
 };
 
+
+// Utitily function to test for undefined and message to user.
+function validateParam(p){
+  if (p === undefined){
+    console.log('Invalid or missing input parameter.');
+    return false;
+  }
+
+  return true;
+};
+
+
+// these are for testing purposes...
+
 // add all books for initialization by book array
-// console.log(lib.addBooks([gBook1,gBook2,gBook3,gBook4,gBook5,gBook6,gBook7,gBook8,gBook9,gBook10]));
-//
+//console.log(lib.addBooks([gBook1,gBook2,gBook3,gBook4,gBook5,gBook6,gBook7,gBook8,gBook9,gBook10]));
+//lib.addBooks([gBook1,gBook2,gBook3,gBook4,gBook5,gBook6,gBook7,gBook8,gBook9,gBook10])
+
 // add all books for initialization by each book
 // console.log(lib.addBook(gBook1));
 // console.log(lib.addBook(gBook2));
