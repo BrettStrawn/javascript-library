@@ -1,0 +1,22 @@
+regex example...  W3Schools
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Search a string for "W3Schools", and display the position of the match:</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var str = "Visit W3Schools!";
+    var n = str.search("W3Schools");
+    document.getElementById("demo").innerHTML = n;
+}
+</script>
+
+</body>
+</html>
